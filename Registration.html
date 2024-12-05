@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            background-color: cyan;
+            padding: 20px;
+            border: 2px solid black;
+            margin: 50px auto;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #message, #emailMessage {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .valid {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>User Registration</h2>
+        <form id="registrationForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <div id="message">
+                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                <p id="uppercase" class="invalid">An <b>uppercase</b> letter</p>
+                <p id="lowercase" class="invalid">A <b>lowercase</b> letter</p>
+                <p id="number" class="invalid">A <b>number</b></p>
+                <p id="special" class="invalid">A <b>special character</b></p>
+            </div>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <div id="emailMessage">
+                <p id="emailFormat" class="invalid">Must be a valid <b>email address</b></p>
+            </div>
+            <br>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <br>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required><br>
+            <label for="userRole">Role:</label>
+            <select id="userRole" name="userRole" required>
+                <option value="ADMIN">ADMIN</option>
+                <option value="PROJECT MANAGER">PROJECT MANAGER</option>
+                <option value="TEAM MEMBER">TEAM MEMBER</option>
+            </select>
+            <br>
+            <input type="submit" value="Register User">
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const emailInput = document.getElementById('email');
+    const length = document.getElementById('length');
+    const uppercase = document.getElementById('uppercase');
+    const lowercase = document.getElementById('lowercase');
+    const number = document.getElementById('number');
+    const special = document.getElementById('special');
+    const emailFormat = document.getElementById('emailFormat');
+
+    // Password validation
+    passwordInput.onfocus = function() {
+        document.getElementById('message').style.display = 'block';
+    };
+
+    passwordInput.onblur = function() {
+        document.getElementById('message').style.display = 'none';
+    };
+
+    passwordInput.onkeyup = function() {
+        const value = passwordInput.value;
+
+        // Validate length
+        if (value.length >= 8) {
+            length.classList.remove('invalid');
+            length.classList.add('valid');
+        } else {
+            length.classList.remove('valid');
+            length.classList.add('invalid');
+        }
+
+        // Validate uppercase letters
+        if (/[A-Z]/.test(value)) {
+            uppercase.classList.remove('invalid');
+            uppercase.classList.add('valid');
+        } else {
+            uppercase.classList.remove('valid');
+            uppercase.classList.add('invalid');
+        }
+
+        // Validate lowercase letters
+        if (/[a-z]/.test(value)) {
+            lowercase.classList.remove('invalid');
+            lowercase.classList.add('valid');
+        } else {
+            lowercase.classList.remove('valid');
+            lowercase.classList.add('invalid');
+        }
+
+        // Validate numbers
+        if (/\d/.test(value)) {
+            number.classList.remove('invalid');
+            number.classList.add('valid');
+        } else {
+            number.classList.remove('valid');
+            number.classList.add('invalid');
+        }
+
+        // Validate special characters
+        if (/[\W_]/.test(value)) {
+            special.classList.remove('invalid');
+            special.classList.add('valid');
+        } else {
+            special.classList.remove('valid');
+            special.classList.add('invalid');
+        }
+    };
+
+    // Email validation
+    emailInput.onfocus = function() {
+        document.getElementById('emailMessage').style.display = 'block';
+    };
+
+    emailInput.onblur = function() {
+        document.getElementById('emailMessage').style.display = 'none';
+    };
+
+    emailInput.onkeyup = function() {
+        const value = emailInput.value;
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+        if (emailPattern.test(value)) {
+            emailFormat.classList.remove('invalid');
+            emailFormat.classList.add('valid');
+        } else {
+            emailFormat.classList.remove('valid');
+            emailFormat.classList.add('invalid');
+        }
+    };
+});
+
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const userRole = document.getElementById('userRole').value;
+
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+    if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    const user = {
+        username,
+        password,
+        email,
+        firstName,
+        lastName,
+        userRole
+    };
+    localStorage.setItem(username, JSON.stringify(user));
+
+    alert('User Registered!');
+    window.location.href = 'login.html';
+});
+
+    </script>
+</body>
+</html>
